@@ -27,7 +27,7 @@ namespace TravelMonkey.Views
             InitializeComponent();
             BindingContext = new FaceValidationViewModel();
             MessagingCenter.Subscribe<FaceValidationViewModel>(this, Constants.StopCameraMessage, (vm) => StopCamera());
-
+            MessagingCenter.Subscribe<FaceValidationViewModel>(this, Constants.PictureAddedMessage, async (vm) => await Navigation.PopModalAsync(true));
         }
         protected override void OnAppearing()
         {

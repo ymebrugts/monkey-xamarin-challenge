@@ -65,7 +65,7 @@ namespace TravelMonkey.Droid.Camera2Basic.Listeners
             await Task.Run(async () =>
             {
                 await Task.Delay(100);
-                await videoFrameStream.DisposeAsync();
+                videoFrameStream.Dispose();
                 processing = false;
             });
             

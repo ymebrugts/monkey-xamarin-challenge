@@ -29,7 +29,7 @@ namespace TravelMonkey.Services
                 var accentColor = Color.FromHex($"#{result.Color.AccentColor}");
 
                 // Determine if there are any landmarks to be seen
-                var landmark = result.Categories.FirstOrDefault(c => c.Detail != null && c.Detail.Landmarks.Any());
+                var landmark = result.Categories.FirstOrDefault(c => c.Detail != null && c.Detail.Landmarks != null && c.Detail.Landmarks.Any());
 
                 var landmarkDescription = "";
 

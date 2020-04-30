@@ -11,7 +11,7 @@ namespace TravelMonkey.State
         public static Callbacks Instance { get; } = new Callbacks();
 
         public Func<MemoryStream, Task> Detect { get; set; }
-
+        public MemoryStream streamImage = new MemoryStream();
 
 
     }
