@@ -33,8 +33,8 @@
             RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1,Constant=0}"
             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width,Factor=1,Constant=0}"
             Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" BackgroundColor="#2196F3">
-                <Label x:Name="cameraText" Margin="0,0,0,10" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" FontSize="16"  TextColor="#FFF" HorizontalTextAlignment="Center"/>
-                <Button x:Name="savePicture" Text="Save" IsVisible="False" Margin="0,0,0,10" HorizontalOptions="End" WidthRequest="100" VerticalOptions="CenterAndExpand" FontSize="16" TextColor="#000" />
+                <Label x:Name="cameraText" Text="{Binding CameraText}" Margin="0,0,0,10" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" FontSize="16"  TextColor="#FFF" HorizontalTextAlignment="Center"/>
+                <Button x:Name="savePicture" Command="{Binding TakePhotoCommand}" Text="Save" IsVisible="{Binding SavePictureVisibility}" Margin="0,0,0,10" HorizontalOptions="End" WidthRequest="100" VerticalOptions="CenterAndExpand" FontSize="16" TextColor="#000" />
             </StackLayout>
         </Frame>
       

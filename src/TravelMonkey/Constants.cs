@@ -5,5 +5,6 @@
         public const string PictureAddedMessage = nameof(PictureAddedMessage);
         public const string TranslationFailedMessage = nameof(TranslationFailedMessage);
         public const string PictureFailedMessage = nameof(PictureFailedMessage);
+        public const string StopCameraMessage = nameof(StopCameraMessage);
     }
 }
