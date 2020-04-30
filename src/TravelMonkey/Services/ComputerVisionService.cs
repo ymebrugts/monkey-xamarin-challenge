@@ -19,6 +19,7 @@ namespace TravelMonkey.Services
         {
             try
             {
+                
                 var result = await _computerVisionClient.AnalyzeImageInStreamAsync(pictureStream, details: new[] { Details.Landmarks }, visualFeatures: new[] { VisualFeatureTypes.Color, VisualFeatureTypes.Description });
 
                 // Get most likely description

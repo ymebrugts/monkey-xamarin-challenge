@@ -70,6 +70,17 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Camera2Basic\AutoFitTextureView.cs" />
+    <Compile Include="Camera2Basic\Camera2BasicState.cs" />
+    <Compile Include="Camera2Basic\CompareSizesByArea.cs" />
+    <Compile Include="Camera2Basic\ICamera2Basic.cs" />
+    <Compile Include="Camera2Basic\Listeners\Camera2BasicSurfaceTextureListener.cs" />
+    <Compile Include="Camera2Basic\Listeners\CameraCaptureListener.cs" />
+    <Compile Include="Camera2Basic\Listeners\CameraCaptureSessionCallback.cs" />
+    <Compile Include="Camera2Basic\Listeners\CameraCaptureStillPictureSessionCallback.cs" />
+    <Compile Include="Camera2Basic\Listeners\CameraStateListener.cs" />
+    <Compile Include="Camera2Basic\Listeners\ImageAvailableListener.cs" />
+    <Compile Include="Camera2Basic\RequestCameraPermission.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -169,7 +180,9 @@
       </Generator>
     </AndroidResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\TravelMonkey.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TravelMonkey\TravelMonkey.csproj">
       <Project>{04991790-FBB2-415A-9531-268B4193DB3E}</Project>

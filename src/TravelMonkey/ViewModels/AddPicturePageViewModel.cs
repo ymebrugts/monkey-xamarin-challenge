@@ -67,28 +67,30 @@ namespace TravelMonkey.ViewModels
 
         private async Task TakePhoto()
         {
-            var result = await UserDialogs.Instance.ActionSheetAsync("What do you want to do?",
-                "Cancel", null, null, "Take photo", "Choose photo");
+            
+            
+            //var result = await UserDialogs.Instance.ActionSheetAsync("What do you want to do?",
+            //    "Cancel", null, null, "Take photo", "Choose photo");
 
-            if (result.Equals("Take photo"))
-            {
-                _photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions { PhotoSize = PhotoSize.Small });
+            //if (result.Equals("Take photo"))
+            //{
+            //    _photo = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions { PhotoSize = PhotoSize.Small });
 
-                PhotoSource = (StreamImageSource)ImageSource.FromStream(() => _photo.GetStream());
-            }
-            else if (result.Equals("Choose photo"))
-            {
-                _photo = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions { PhotoSize = PhotoSize.Small });
+            //    PhotoSource = (StreamImageSource)ImageSource.FromStream(() => _photo.GetStream());
+            //}
+            //else if (result.Equals("Choose photo"))
+            //{
+            //    _photo = await CrossMedia.Current.PickPhotoAsync(new PickMediaOptions { PhotoSize = PhotoSize.Small });
 
-                PhotoSource = (StreamImageSource)ImageSource.FromStream(() => _photo.GetStream());
-            }
-            else
-            {
-                return;
-            }
+            //    PhotoSource = (StreamImageSource)ImageSource.FromStream(() => _photo.GetStream());
+            //}
+            //else
+            //{
+            //    return;
+            //}
 
-            if (_photo != null)
-                await Post();
+            //if (_photo != null)
+            //    await Post();
         }
 
         private async Task Post()

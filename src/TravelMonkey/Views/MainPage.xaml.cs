@@ -33,7 +33,8 @@ namespace TravelMonkey.Views
 
         private async void AddNewPicture_Tapped(object sender, EventArgs e)
         {
-            await Navigation.PushModalAsync(new AddPicturePage());
+            //await Navigation.PushModalAsync(new AddPicturePage());
+            await Navigation.PushModalAsync(new FaceValidationPage());
         }
 
         private async void Entry_Completed(object sender, EventArgs e)

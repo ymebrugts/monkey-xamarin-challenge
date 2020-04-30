@@ -11,6 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Vision.Face" Version="2.5.0-preview.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.6.0.616-pre4" />
     <PackageReference Include="Xamarin.Essentials" Version="1.5.2" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="1.3.7" />
@@ -20,7 +21,8 @@
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.ImageSearch" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
+    <Folder Include="Factories\" />
+    <Folder Include="State\" />
     <Folder Include="Resources\Fonts\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
@@ -37,6 +39,7 @@
     <None Remove="Resources\Fonts\Lato-Regular.ttf" />
     <None Remove="Resources\Fonts\fa-regular.otf" />
     <None Remove="Resources\Fonts\fa-solid.otf" />
+    <None Remove="Resources\TravelMonkey.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Fonts\Lato-Black.ttf" />
@@ -44,6 +47,7 @@
     <EmbeddedResource Include="Resources\Fonts\Lato-Regular.ttf" />
     <EmbeddedResource Include="Resources\Fonts\fa-regular.otf" />
     <EmbeddedResource Include="Resources\Fonts\fa-solid.otf" />
+    <EmbeddedResource Include="Resources\TravelMonkey.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Views\MainPage.xaml.cs">
