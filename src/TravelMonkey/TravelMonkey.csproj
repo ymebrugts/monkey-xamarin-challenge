@@ -24,11 +24,9 @@
     <Folder Include="Factories\" />
     <Folder Include="State\" />
     <Folder Include="Resources\Fonts\" />
-    <Folder Include="ViewModels\" />
     <Folder Include="Models\" />
     <Folder Include="Effects\" />
     <Folder Include="Views\" />
-    <Folder Include="Services\" />
     <Folder Include="Data\" />
     <Folder Include="Models\CognitiveServices\" />
     <Folder Include="Converters\" />

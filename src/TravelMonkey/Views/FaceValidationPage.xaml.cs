@@ -22,12 +22,7 @@ namespace TravelMonkey.Views
         Callbacks callbacks = Callbacks.Instance;
        
         FaceClient faceClient;
-
-        private double? smile;
-        private int width;
-        private double smileThreshold = 0.7;
-        private double confidenceTreshold = 0.4;
-        Guid TravelMonkeyFaceID;
+     
         public FaceValidationPage()
         {
             InitializeComponent();
@@ -37,38 +32,12 @@ namespace TravelMonkey.Views
             callbacks.Detect = new Func<MemoryStream, Task>(async (cameraFrameStream) =>
             {
             await Detect(cameraFrameStream);                              
-            });
-            
-        }
-
-
-        private async Task processMonkey()
-        {
-            cameraText.Text = "Travel Monkey is currently being processed. \n You will be next.";
-
-            Assembly assembly = Assembly.GetExecutingAssembly();
-            Stream TravelMonkeyAsStream = assembly.GetManifestResourceStream("TravelMonkey.Resources.TravelMonkey.png");
-            TravelMonkeyAsStream.Seek(0, SeekOrigin.Begin);
-            var facesResults = await faceClient.Face.DetectWithStreamAsync(TravelMonkeyAsStream, true, false, new FaceAttributeType[] { FaceAttributeType.HeadPose, FaceAttributeType.Smile });
-            if (facesResults[0].FaceId != null)
-            {
-                TravelMonkeyFaceID = (Guid)facesResults[0].FaceId;
-
-            } else
-            {
-                cameraText.Text = "Could not detect face on Travel Monkey";
-            }
+            });            
 
         }
-
-        protected override async void OnAppearing()
+        protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (TravelMonkeyFaceID == Guid.Empty)
-            {
-                await processMonkey();
-            }                     
-            this.Title = "Try to smile and look just like the Travel Monkey";
         }
 
         protected override void OnDisappearing()
@@ -89,57 +58,75 @@ namespace TravelMonkey.Views
                 cameraText.Text = "Face verification failed :(";
                 return;
             }
-            Guid? identityPhotoGuid = TravelMonkeyFaceID;
-            if (identityPhotoGuid == null)
-            {
-                cameraText.Text = "Travel Monkey is currently being processed. \n You will be next.";
-                return;
-            }
-
-            var facesResults = await faceClient.Face.DetectWithStreamAsync(stream, true, false,  new FaceAttributeType[] { FaceAttributeType.HeadPose, FaceAttributeType.Smile, FaceAttributeType.Age, FaceAttributeType.Emotion, FaceAttributeType.Glasses } );
+            var facesResults = await faceClient.Face.DetectWithStreamAsync(stream, true, false,  new FaceAttributeType[] { FaceAttributeType.HeadPose, FaceAttributeType.Smile, FaceAttributeType.Age, FaceAttributeType.Emotion, FaceAttributeType.Glasses, FaceAttributeType.Accessories } );
+            facesResults = null;
             if (facesResults != null && facesResults.Count > 0)
             {
-                await compareCameraPhotoToIdentityPhoto(facesResults, (MemoryStream) stream);
+                await compareCameraPhotoToTravelMonkey(facesResults, (MemoryStream) stream);
+            } else
+            {
+                cameraText.Text = "We can't find a face :(\nRetrying now...";
             }
         }
 
-        private async Task compareCameraPhotoToIdentityPhoto(IList<DetectedFace> faceResults, MemoryStream stream)
+        private async Task compareCameraPhotoToTravelMonkey(IList<DetectedFace> faceResults, MemoryStream stream)
         {
             var selfieFaceId = faceResults[0].FaceId;
             
             //Smile and width of face from camera
-            smile = faceResults[0].FaceAttributes.Smile;
-            width = faceResults[0].FaceRectangle.Width;
+            var smile = faceResults[0].FaceAttributes.Smile;
+            var width = faceResults[0].FaceRectangle.Width;
+            GlassesType? Glasses = faceResults[0].FaceAttributes.Glasses;
 
-            //get Id from face api from identitydocument photo
-            if (smile < smileThreshold)
+            var glasses = faceResults[0].FaceAttributes?.Accessories?.Where(c => c.Type == AccessoryType.Glasses).FirstOrDefault();
+            var headwear = faceResults[0].FaceAttributes?.Accessories?.Where(c => c.Type == AccessoryType.HeadWear).FirstOrDefault();
+
+
+            if (Glasses == null || !Glasses.HasValue || Glasses.Value == GlassesType.NoGlasses)
             {
-                cameraText.Text = "You should smile more";
+                cameraText.Text = "You need to look more like our mascot the Travel Monkey.\nTry putting on glasses";
                 return;
             }
 
-            if (TravelMonkeyFaceID != null && selfieFaceId != null)
+            if (glasses.Confidence < 0.8)
             {
-                cameraText.Text = "Verifying";
-                var identityPhotoGuid = TravelMonkeyFaceID;
-                var selfieCameraFrameGuid = (Guid)selfieFaceId;
-                var faceComparison = await faceClient.Face.VerifyFaceToFaceAsync(selfieCameraFrameGuid, identityPhotoGuid);
-                if (faceComparison.Confidence > confidenceTreshold)
-                {                    
-                    StopCamera();
-                    //TODO: Save
-                                       
-                    await NextStep();
-                    
-                } else
-                {
-                    cameraText.Text = "You need to look more like our mascot the Travel Monkey. \nTry putting on glasses";
-                    
-                }
-            } else
+                cameraText.Text = "You need to look more like our mascot the Travel Monkey.\nWe are not confident enough you are wearing glasses";
+                return;
+            }
+
+            if (headwear == null)
             {
-                cameraText.Text = "Verifying";                
-            }            
+                cameraText.Text = "Stop tricking Travel Monkey!\nTry putting on a hat";
+                return;
+            }
+
+            if (glasses.Confidence < 0.8)
+            {
+                cameraText.Text = "Stop tricking Travel Monkey!\nWe are not confident enough you are wearing a hat";
+                return;
+            }
+
+            if (headwear == null)
+            {
+                cameraText.Text = "Stop tricking Travel Monkey!\nTry putting on a hat";
+                return;
+            }
+
+            if (smile < 0.8)
+            {
+                cameraText.Text = "You should smile more.\nYou are travelling, be happy!";
+                return;
+            }
+            cameraText.Text = "Wow are you Travel Monkey?";
+            await Task.Run(() =>
+            {
+                Task.Delay(3000);
+                StopCamera();
+                savePicture.IsVisible = true;
+            });
+            
+            //TODO: Save                                
+            //await NextStep();
         }
 
         private async Task NextStep()

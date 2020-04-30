@@ -2,6 +2,8 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
+using TravelMonkey.Droid.Services;
+using Xamarin.Forms;
 
 namespace TravelMonkey.Droid
 {
@@ -18,6 +20,7 @@ namespace TravelMonkey.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             Acr.UserDialogs.UserDialogs.Init(this);
+            DependencyService.Register<MediaFolder>();
 
             LoadApplication(new App());
         }
